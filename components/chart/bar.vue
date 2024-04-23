@@ -1,5 +1,5 @@
 <template>
-  <charts-default>
+  <chart-default>
     <Bar
       ref="bar"
       :data="chartData"
@@ -11,7 +11,7 @@
       :styles="styles"
     />
     <slot />
-  </charts-default>
+  </chart-default>
 </template>
 
 <script lang="ts" setup>

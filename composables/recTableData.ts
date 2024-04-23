@@ -1,5 +1,5 @@
 export default class RecognizeTableData{
-  
+  //TODO Сделать обработку вложенного в объект объекта, а то сейчас ток обработка вложенных массивов
   public processData(data: Array<object> | object): string | object  {
     if (Array.isArray(data)) {
       return this.recursiveProcessing(data)
@@ -37,7 +37,7 @@ export default class RecognizeTableData{
   recursiveProcessing<T extends object | string>(array: Array<T>, depth: number = 0, keyName?: string, index?: number): object {
     let tablesData: object = {}
     let depthCopy: number = depth
-    const fieldArrayName = `rowDataField_${keyName ?? 'root'}${Number.isInteger(index) ? '_' : ''}${index ?? ''}`
+    const fieldArrayName: string = `rowDataField_${keyName ?? 'root'}${Number.isInteger(index) ? '_' : ''}${index ?? ''}`
     array.forEach((node: object, index: number) => {
       const nodeKeys: Array<string> = Object.keys(node)
       let nodeObject: object = {}
@@ -45,7 +45,7 @@ export default class RecognizeTableData{
         const arrayFieldData = fieldArrayName in tablesData && Array.isArray(tablesData[fieldArrayName as keyof typeof tablesData]) ? [...tablesData[fieldArrayName as keyof typeof tablesData]] : []
         if (Array.isArray(node[key as keyof typeof node])){
           nodeObject = {...nodeObject, [key]: 'array field'}
-          tablesData = {...tablesData, [fieldArrayName]:[...arrayFieldData, {...nodeObject}], ...this.recursiveProcessing(node[key as keyof typeof node], ++depthCopy, key, index)}
+          tablesData = {...tablesData, [fieldArrayName]: [ ...arrayFieldData, {...nodeObject}], ...this.recursiveProcessing(node[key as keyof typeof node], ++depthCopy, key, index)}
         } else {
           nodeObject = {...nodeObject, [key]: node[key as keyof typeof node]}
           tablesData = {...tablesData, [fieldArrayName]: [ ...arrayFieldData ,{...nodeObject}] }

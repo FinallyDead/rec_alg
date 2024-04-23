@@ -65,7 +65,10 @@
           <p class="text-[36px] font-medium ">
                Исходный вид данных
           </p>
-          <div  ref="dataInfo" class="relative overflow-y-auto">
+          <div 
+            ref="dataInfo" 
+            class="relative overflow-auto"
+          >
             <pre>{{ loadedData }}</pre> 
           </div>
         </div>
@@ -73,9 +76,9 @@
     </div>
     <transition name="fade">
       <div v-if="localStorageData != null" class="flex space-x-[24px] justify-center ">
-        <div class="flex flex-col bg-[#0488d3] flex-1 p-6 rounded shadow-l basis-1/2 space-y-[24px]">
+        <div class="flex flex-col bg-[#0488d3]  p-6 rounded shadow-l basis-1/2 space-y-[24px]">
           <p class="text-[36px] font-medium text-white text-sans">
-               Линейный график
+               Линейная диаграмма
           </p>
           <div class="bg-white rounded p-2 h-full w-full">
             <ChartLinear
@@ -84,9 +87,9 @@
             />
           </div>
         </div>
-        <div class="flex flex-col bg-[#0488d3] flex-1 p-6 rounded shadow-l basis-1/2 space-y-[24px]">
+        <div class="flex flex-col bg-[#0488d3]  p-6 rounded shadow-l basis-1/2 space-y-[24px]">
           <p class="text-[36px] font-medium text-white text-sans">
-               Столбчатый график
+               Столбчатая диаграмма
           </p>
           <div class="bg-white rounded p-2 h-full w-full">
             <ChartBar
@@ -103,6 +106,7 @@
 <script setup lang="ts">
 import getData from '@/composables/getData'
 import RecognizeTableData from '@/composables/recTableData'
+import RecognizeGraphicData from '~/composables/recGraphicData'
 
 const inputValue = ref<string>('https://gorest.co.in/public/v2/users')
 const loadedData = ref<string>('')
@@ -114,20 +118,34 @@ const tableElement = ref<HTMLElement | null>(null)
 const dataInfo =  ref<HTMLElement | null>(null)
 
 const linearData = ref({
-  labels: ['a', 'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
+  labels: ['a', 'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', 1, 2, 3, 4 ,5,6],
   name: 'График характеристики',
   datasets: [
     {
       backgroundColor:"#0488d3",
       borderColor:"#0488d3",
-      data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+      data: [40, 20, 12, 42, 45,78,96,45,75,23,47,46 ,40, 20, 12, 42, 45,78,96,45,75,23,47,46,47,46],
       datalabels: {
         align:"bottom",
         anchor:"start",
         clamp:true
       },
       fill:false,
-      label:"",
+      label:"исми",
+      type:"line",
+      yAxisID:"y",
+    },
+    {
+      backgroundColor:"#0488d3",
+      borderColor:"#0488d3",
+      data: [1, 2, 3, 4 ,5,6],
+      datalabels: {
+        align:"bottom",
+        anchor:"start",
+        clamp:true
+      },
+      fill:false,
+      label:"исми",
       type:"line",
       yAxisID:"y",
     }
@@ -171,10 +189,10 @@ const linearOptions = ref({
 })
 
 const barData = ref({
-  labels: [ 'January', 'February', 'March' ],
+  labels: [ 'January', 'February', 'March','c','d','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'],
   datasets: [
      { 
-      data: [40, 20, 12],
+      data: [40, 20, 12, 42, 45,78,96,45,75,23,47,46 ,40, 20, 12, 42, 45,78,96,45,75,23,47,46,47,46  ],
       label: 'Data One',
       backgroundColor: '#f87979',
      } 
@@ -190,6 +208,176 @@ onMounted(() => {
     localStorageData.value = JSON.parse(localStorage.getItem("loadedData") || '{}')
     primaryDataProcessing(localStorageData.value)
   }
+
+//  new RecognizeGraphicData().processData([
+//     {
+//       title: 'ab',
+//       date: '10.15.2022',
+//       id:1,
+//       data: [
+//         {
+//           x: 1,
+//           y: 1
+//         },
+//         {
+//           x: 2,
+//           y: 2
+//         },
+//         {
+//           x: 3,
+//           y: 3
+//         },
+//         {
+//           x: 4,
+//           y: 4
+//         }
+//       ]
+//     },
+//     {
+//       title: 'aba',
+//       date: '10.17.2022',
+//       id:2,
+//       data: [
+//         {
+//           x: 5,
+//           y: 5
+//         },
+//         {
+//           x: 13,
+//           y: 13
+//         },
+//         {
+//           x: 14,
+//           y: 14
+//         },
+//         {
+//           x: 15,
+//           y: 15
+//         }
+//       ]
+//     },
+//     {
+//       title: 'abb',
+//       date: '10.18.2022',
+//       id:3,
+//       data: [
+//         {
+//           x: 6,
+//           y: 6
+//         },
+//         {
+//           x: 7,
+//           y: 7
+//         },
+//         {
+//           x: 8,
+//           y: 8
+//         },
+//         {
+//           x: 9,
+//           y: 9
+//         }
+//       ]
+//     }
+//    ])
+    new RecognizeGraphicData().processData([
+        {x: [1,2,3,4,5,6,7], y: [9,8,7,6,5,4,3,2,1]}  
+    ])
+  //  new RecognizeGraphicData().processData([
+  //   {
+  //     title: 'ab',
+  //     date: '10.15.2022',
+  //     id:1,
+  //     data: [
+  //       {
+  //         x: 1,
+  //         y: 1
+  //       },
+  //       {
+  //         x: 2,
+  //         y: 2
+  //       },
+  //       {
+  //         x: 3,
+  //         y: 3
+  //       },
+  //       {
+  //         x: 4,
+  //         y: 4
+  //       }
+  //     ]
+  //   },
+  //   {
+  //     title: 'aba',
+  //     date: '10.17.2022',
+  //     id:2,
+  //     field: {
+  //       title: 'abb',
+  //       date: '10.18.2022',
+  //       id:3,
+  //       kavo: {
+  //     title: 'ab',
+  //     date: '10.15.2022',
+  //     id:1,
+  //     data: [
+  //       {
+  //         x: 1,
+  //         y: 1
+  //       },
+  //       {
+  //         x: 2,
+  //         y: 2
+  //       },
+  //       {
+  //         x: 3,
+  //         y: 3
+  //       },
+  //       {
+  //         x: 4,
+  //         y: 4
+  //       }
+  //     ]
+  //   }, 
+  //       data: [
+  //         {
+  //           x: 6,
+  //           y: 6
+  //         },
+  //         {
+  //           x: 7,
+  //           y: 7
+  //         },
+  //         {
+  //           x: 8,
+  //           y: 8
+  //         },
+  //         {
+  //           x: 9,
+  //           y: 9
+  //         }
+  //       ]
+  //     } ,
+  //     data: [
+  //       {
+  //         x: 5,
+  //         y: 5
+  //       },
+  //       {
+  //         x: 13,
+  //         y: 13
+  //       },
+  //       {
+  //         x: 14,
+  //         y: 14
+  //       },
+  //       {
+  //         x: 15,
+  //         y: 15
+  //       }
+  //     ]
+  //   },
+    
+  //  ])
 })
 
 const resizeObserver = new ResizeObserver((entries) => {
