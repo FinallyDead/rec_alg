@@ -1,9 +1,10 @@
 <template>
-  <UISectionMain class=" bg-[#035787] full-screen h-screen overflow-auto space-y-[24px]">
+  <UISectionMain class=" bg-[#095683] full-screen h-screen overflow-auto space-y-[24px]">
     <div class="flex space-x-5 justify-center">
       <div class="w-full">
+        <!-- TODO сделать вычисления максимума высоты среди блоков кода и таблицы -->
         <div 
-          class="bg-[#0488d3] h-[144px] p-6 rounded transition-width duration-800 ease-in shadow-xl basis-1/2"  
+          class="bg-gradient-to-b from-[#3bbaf5] from-30% to-[#05669f] border-[#0581c4] border h-[144px] p-6 rounded transition-width duration-800 ease-in basis-1/2"  
           :class="{'w-full': localStorageData != null, 'w-[400px] mx-auto': !(localStorageData != null)}"
         >
           <VaInput 
@@ -43,7 +44,7 @@
           >
            
             <div 
-              class="bg-[#0488d3] w-full h-fit p-6 rounded mt-[24px] shadow-xl space-y-[24px]"
+              class="bg-gradient-to-br from-[#3bbaf5] to-[#05669f] border-[#0581c4] w-full h-fit p-6 rounded mt-[24px] space-y-[24px]"
             >
               <p class="text-[36px] font-medium text-white text-sans">
                Корневая таблица
@@ -60,38 +61,38 @@
       <transition name="fade">
         <div 
           v-show="localStorageData != null"
-          class="relative bg-[#0488d3] w-fit p-6 rounded text-sans text-white shadow-xl basis-1/3 space-y-[24px]"
+          class="relative bg-gradient-to-bl from-[#3bbaf5] to-[#05669f] border-[#0581c4] w-fit p-6 rounded text-sans text-[#181d1f] basis-1/3 space-y-[24px]"
         > 
-          <p class="text-[36px] font-medium ">
+          <p class="text-[36px] font-medium text-white">
                Исходный вид данных
           </p>
           <div 
             ref="dataInfo" 
-            class="relative overflow-auto"
+            class="relative overflow-auto rounded"
           >
-            <pre>{{ loadedData }}</pre> 
+            <pre class="bg-white whitespace-pre-wrap p-3">{{ loadedData }}</pre> 
           </div>
         </div>
       </transition>
     </div>
     <transition name="fade">
-      <div v-if="localStorageData != null" class="flex space-x-[24px] justify-center ">
-        <div class="flex flex-col bg-[#0488d3]  p-6 rounded shadow-l basis-1/2 space-y-[24px]">
+      <div v-if="localStorageData != null" class="flex space-x-[24px] justify-center">
+        <div class="flex flex-col bg-gradient-to-r from-[#3bbaf5] to-[#05669f] border-[#0581c4] p-6 rounded  basis-1/2 space-y-[24px]">
           <p class="text-[36px] font-medium text-white text-sans">
                Линейная диаграмма
           </p>
-          <div class="bg-white rounded p-2 h-full w-full">
+          <div class="bg-white rounded p-2 h-full w-[99%] mx-auto">
             <ChartLinear
               :chart-options="linearOptions"
               :chart-data="linearData"
             />
           </div>
         </div>
-        <div class="flex flex-col bg-[#0488d3]  p-6 rounded shadow-l basis-1/2 space-y-[24px]">
+        <div class="flex flex-col bg-gradient-to-l from-[#3bbaf5] to-[#05669f] border-[#0581c4]  p-6 rounded  basis-1/2 space-y-[24px]">
           <p class="text-[36px] font-medium text-white text-sans">
                Столбчатая диаграмма
           </p>
-          <div class="bg-white rounded p-2 h-full w-full">
+          <div class="bg-white rounded p-2 h-full w-[99%] mx-auto">
             <ChartBar
               :chart-data="barData"
               :chart-options="barOptions"
@@ -281,108 +282,108 @@ onMounted(() => {
 //     }
 //    ])
     new RecognizeGraphicData().processData([
-        {x: [1,2,3,4,5,6,7], y: [9,8,7,6,5,4,3,2,1]}  
+        {x: [1,2,3,4,5,6,7], y: ['a','b','c','d','e','f','g'], z: [2,3,4,5,8,9,6,10,15], h: [5,5,5,5,5,5,5,5]}  
     ])
-  //  new RecognizeGraphicData().processData([
-  //   {
-  //     title: 'ab',
-  //     date: '10.15.2022',
-  //     id:1,
-  //     data: [
-  //       {
-  //         x: 1,
-  //         y: 1
-  //       },
-  //       {
-  //         x: 2,
-  //         y: 2
-  //       },
-  //       {
-  //         x: 3,
-  //         y: 3
-  //       },
-  //       {
-  //         x: 4,
-  //         y: 4
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     title: 'aba',
-  //     date: '10.17.2022',
-  //     id:2,
-  //     field: {
-  //       title: 'abb',
-  //       date: '10.18.2022',
-  //       id:3,
-  //       kavo: {
-  //     title: 'ab',
-  //     date: '10.15.2022',
-  //     id:1,
-  //     data: [
-  //       {
-  //         x: 1,
-  //         y: 1
-  //       },
-  //       {
-  //         x: 2,
-  //         y: 2
-  //       },
-  //       {
-  //         x: 3,
-  //         y: 3
-  //       },
-  //       {
-  //         x: 4,
-  //         y: 4
-  //       }
-  //     ]
-  //   }, 
-  //       data: [
-  //         {
-  //           x: 6,
-  //           y: 6
-  //         },
-  //         {
-  //           x: 7,
-  //           y: 7
-  //         },
-  //         {
-  //           x: 8,
-  //           y: 8
-  //         },
-  //         {
-  //           x: 9,
-  //           y: 9
-  //         }
-  //       ]
-  //     } ,
-  //     data: [
-  //       {
-  //         x: 5,
-  //         y: 5
-  //       },
-  //       {
-  //         x: 13,
-  //         y: 13
-  //       },
-  //       {
-  //         x: 14,
-  //         y: 14
-  //       },
-  //       {
-  //         x: 15,
-  //         y: 15
-  //       }
-  //     ]
-  //   },
+   new RecognizeGraphicData().processData([
+    {
+      title: 'ab',
+      date: '10.15.2022',
+      id:1,
+      data: [
+        {
+          x: 1,
+          y: 1
+        },
+        {
+          x: 2,
+          y: 2
+        },
+        {
+          x: 3,
+          y: 3
+        },
+        {
+          x: 4,
+          y: 4
+        }
+      ]
+    },
+    {
+      title: 'aba',
+      date: '10.17.2022',
+      id:2,
+      field: {
+        title: 'abb',
+        date: '10.18.2022',
+        id:3,
+        kavo: {
+      title: 'ab',
+      date: '10.15.2022',
+      id:1,
+      data: [
+        {
+          x: 1,
+          y: 1
+        },
+        {
+          x: 2,
+          y: 2
+        },
+        {
+          x: 3,
+          y: 3
+        },
+        {
+          x: 4,
+          y: 4
+        }
+      ]
+    }, 
+        data: [
+          {
+            x: 6,
+            y: 6
+          },
+          {
+            x: 7,
+            y: 7
+          },
+          {
+            x: 8,
+            y: 8
+          },
+          {
+            x: 9,
+            y: 9
+          }
+        ]
+      } ,
+      data: [
+        {
+          x: 5,
+          y: 5
+        },
+        {
+          x: 13,
+          y: 13
+        },
+        {
+          x: 14,
+          y: 14
+        },
+        {
+          x: 15,
+          y: 15
+        }
+      ]
+    },
     
-  //  ])
+   ])
 })
 
 const resizeObserver = new ResizeObserver((entries) => {
   for (const entry of entries) {
-    dataInfo.value && (dataInfo.value.style.height = entry.contentBoxSize[0].blockSize + 'px')
+    dataInfo.value && (dataInfo.value.style.height = entry.contentBoxSize[0].blockSize + 17 +'px')
   }
 });
 
@@ -410,7 +411,8 @@ function getColumns(data: Array<object> | null): Array<object> {
         headerName: el,
         field: el,
         flex: 1,
-        minWidth : 200,
+        minWidth: 200,
+        maxWidth: 300, 
         cellStyle : { 'text-overflow':'ellipsis', 'overflow': 'hidden', }
       }))
     })
