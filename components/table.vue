@@ -13,7 +13,6 @@
     :suppress-row-click-selection="suppressRowClickSelection"
     class="ag-theme-quartz h-[700px]"
     enable-range-selection="true"
-    suppress-pagination-panel
   ></ag-grid-vue>
 </template>
 
