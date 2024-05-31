@@ -50,10 +50,6 @@ const props = defineProps({
   },
 })
 const bar: Ref<any> = ref(null)
-const chartInstance: Ref<any> = ref(null)
-onMounted(() => {
-  chartInstance.value = bar.value.chart
-})
 
 /**
  *  Функция скрывает все данные на графике
@@ -64,8 +60,24 @@ function hideAllData(isHidden = true) {
   }
   bar.value.chart.update()
 }
+
+function update() {
+  bar.value.chart.update()
+}
+
+function reset() {
+  bar.value.chart.reset()
+}
+
+function render(){
+  bar.value.chart.renderChart(props.chartData, props.chartOptions)
+}
+
 defineExpose({
   hideAllData,
+  update,
+  reset,
+  render
 })
 </script>
 

@@ -1,12 +1,13 @@
-export default class RecognizeGraphicData {
-  // 0.95570373535156 мб размер стека вызовов
-  // 2 879 - количество вызовов для переполнения стека
-   public processData(data: Array<object> | object): string | object  {
-    const graphicData  = this.recursiveProcessing(data)  
-    return Object.keys(graphicData).length > 0 ? graphicData : 'There is no data for graphic visualization'
-  }
+declare const self: DedicatedWorkerGlobalScope
+export {}
+self.addEventListener('message', function(e) {
+  const graphicData = recursiveProcessing(e.data)
+  self.postMessage(Object.keys(graphicData).length > 0 ? graphicData : 'There is no data for graphic visualization')
+  self.close()
+}, false)
+
   
-  recursiveProcessing<T extends object | string | number>(data: Array<T> | object, depth: number = 0, nodeIndex?: number, levelIndex?: number): object {
+ function recursiveProcessing<T extends object | string | number>(data: Array<T> | object, depth: number = 0, nodeIndex?: number, levelIndex?: number): object {
     let graphicData: object = {}
     const fieldAxisXLabels: string = `labelsX_${depth == 0 ? 'root' : depth}${Number.isInteger(nodeIndex) ? '_' : ''}${nodeIndex ?? ''}${Number.isInteger(levelIndex) ? '_' : ''}${levelIndex ?? ''}`
     const fieldAxisYLabels: string = `labelsY_${depth == 0 ? 'root' : depth}${Number.isInteger(nodeIndex) ? '_' : ''}${nodeIndex ?? ''}${Number.isInteger(levelIndex) ? '_' : ''}${levelIndex ?? ''}`
@@ -20,7 +21,7 @@ export default class RecognizeGraphicData {
           : []
         let depthCopy: number = depth
         if (typeof node === 'object' && typeof node !== 'string') {
-          const callResult = this.recursiveProcessing(node, ++depthCopy, index, levelIndex)
+          const callResult = recursiveProcessing(node, ++depthCopy, index, levelIndex)
           const resultKeys = Object.keys(callResult)
           if (resultKeys.length >= 2)
             fieldAxisXLabels == 'labelsX_root' 
@@ -85,7 +86,7 @@ export default class RecognizeGraphicData {
         }
 
         if (keysOfArraysConsOfNum.length > 0 && keysOfArraysConsOfStr.length == 0) {
-         graphicData = {...graphicData, ...this.processNumberArrays(data, depthCopy, countOfArray, graphicData, keysOfArraysConsOfNum)}
+         graphicData = {...graphicData, ...processNumberArrays(data, depthCopy, countOfArray, graphicData, keysOfArraysConsOfNum)}
          keysOfArraysAndObjects = keysOfArraysAndObjects.filter((key: string) => !keysOfArraysConsOfNum.includes(key))
         }
       }
@@ -101,7 +102,7 @@ export default class RecognizeGraphicData {
       }
       keysOfArraysAndObjects.length > 0 && keysOfArraysAndObjects.forEach((key: string) => {
         !Array.isArray(data[key as keyof typeof data]) && ++countOfArray
-        const callResult = this.recursiveProcessing(data[key as keyof typeof data], depthCopy, countOfArray, nodeIndex)
+        const callResult = recursiveProcessing(data[key as keyof typeof data], depthCopy, countOfArray, nodeIndex)
         graphicData = {...graphicData, ...callResult,}
       })
     }
@@ -109,7 +110,7 @@ export default class RecognizeGraphicData {
   }
 
 
-  processNumberArrays<T extends object | string | number>(data: Array<T> | object, depthCopy: number, countOfArray: number, graphicData: object, keysOfArraysConsOfNum: Array<string>): object {
+function  processNumberArrays<T extends object | string | number>(data: Array<T> | object, depthCopy: number, countOfArray: number, graphicData: object, keysOfArraysConsOfNum: Array<string>): object {
     const fieldAxisXLabelsArray: string = `labelsX_${depthCopy}_`
     const fieldAxisYLabelsArray: string = `labelsY_${depthCopy}_`
     keysOfArraysConsOfNum.forEach((key: string, index: number) => {
@@ -126,4 +127,3 @@ export default class RecognizeGraphicData {
     })
     return graphicData
   }
-}

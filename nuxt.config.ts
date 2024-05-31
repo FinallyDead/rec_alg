@@ -32,5 +32,5 @@ export default defineNuxtConfig({
       'composables/**'
     ]
   },
-  modules: ["@vuestic/nuxt"]
+  modules: ["@vuestic/nuxt", 'nuxt3-notifications']
 })
